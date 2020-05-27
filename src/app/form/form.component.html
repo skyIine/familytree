@@ -1,0 +1,79 @@
+<div class="container">
+
+
+  <mat-horizontal-stepper>
+    <mat-step label="Step 1" state="phone">
+      <!-- STEP 1 -->
+      <h1>Welcome to Family Tree Creator!</h1>
+      <h2>Please press next to start.</h2>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step label="Step 2" state="chat">
+      <!-- STEP 2 -->
+      <div>
+        <!-- <div *ngFor="let i of familynumberList"> -->
+
+        <div [hidden]="submitted">
+          <h1>Add New Family Member</h1>
+          <form #form="ngForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" required [(ngModel)]="model.name" name="name">
+            </div>
+
+            <div class="form-group">
+              <label for="surname">Surname</label>
+              <input type="text" class="form-control" id="surname" [(ngModel)]="model.surname" name="surname">
+            </div>
+
+            <div class="form-group">
+              <label for="relation">Relation</label>
+              <select class="form-control" id="relation" required [(ngModel)]="model.relation" name="relation">
+                <option *ngFor="let rel of relation" [value]="rel">{{rel}}</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-default" (click)="newFamilyMember(); form.reset()">+Add New Family Member</button>
+            <button mat-button matStepperNext type="submit" class="btn btn-success" [disabled]="!form.form.valid"  (click)="newFamilyMember();">Done!</button>
+            
+          </form>
+        </div>
+      </div>
+    <button mat-button matStepperPrevious>Back</button>
+    
+
+
+
+    </mat-step>
+    <mat-step label="Step 3">
+      <!-- STEP 3 -->
+      <h2>You submitted the following:</h2>
+      <div *ngFor="let i of FamilyList">
+        <div class="row">
+          <div class="col-xs-3">Name</div>
+          <div class="col-xs-9">{{ i.name }}</div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3">Surname</div>
+          <div class="col-xs-9">{{ i.surname }}</div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3">Relation</div>
+          <div class="col-xs-9">{{ i.relation }}</div>
+        </div>
+        <br>
+        <!-- <button class="btn btn-primary" (click)="submitted=false">Edit</button> -->
+      </div>
+      <button class="btn btn-primary">Create Family Tree!</button>
+      <button mat-button matStepperPrevious>Back</button>
+    </mat-step>
+
+    <!-- Icon overrides. -->
+    <ng-template matStepperIcon="phone">
+
+    </ng-template>
+  </mat-horizontal-stepper>
+
+</div>
