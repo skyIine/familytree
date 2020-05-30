@@ -23,7 +23,7 @@ export class FamilyMemberClassComponent {
 
   myimage: string = 'assets/tree.png';
 
-  relationType = ['mother', 'father', 'sister', 'brother'];
+  relationType = ['mother', 'father', 'brother', 'sister'];
 
 
   model = new FamilyMember(this.index, 'Name', '');

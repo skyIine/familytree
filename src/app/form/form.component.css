@@ -12,3 +12,9 @@ h1 {
 	font-size: 35px;
   top: 20%;
 }
+img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
