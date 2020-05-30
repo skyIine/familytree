@@ -66,18 +66,7 @@
           <button class="btn btn-primary" (click)="newRelation(); form.reset()">Add New Relation</button>
         </div>
 
-        <div *ngFor="let i of FamilyList">
-          <div class="row">
-            <div class="col-xs-3">Name</div>
-            <div class="col-xs-9">{{ i.name }}</div>
-          </div>  
-          <div class="row">
-            <div class="col-xs-3">Relation</div>
-            <div class="col-xs-9">{{ i.relation }}</div>
-          </div>
-          <br>
-          <!-- <button class="btn btn-primary" (click)="submitted=false">Edit</button> -->
-        </div>
+        
 
         <button class="btn btn-primary">Create Family Tree!</button>
         <button mat-button matStepperPrevious (click)="submitted=false">Back</button>
