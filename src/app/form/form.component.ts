@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FamilyMember } from '../family-member';
 import { OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { SourceMember } from '../source-member';
+import { Relation } from '../relation';
 import { TargetMember } from '../target-member';
 
 @Component({
@@ -15,19 +15,20 @@ import { TargetMember } from '../target-member';
 
 export class FamilyMemberClassComponent {
 
+  index:number =0;
+
   FamilyList: Array<FamilyMember> = [];
   familyNumber: number;
   familynumberList: Array<number> = [];
 
-  myimage: string = "assets/tree.png";
-
+  myimage: string = 'assets/tree.png';
 
   relationType = ['mother', 'father', 'sister', 'brother'];
 
 
-  model = new FamilyMember(18, 'Name');
+  model = new FamilyMember(this.index, 'Name', '');
 
-  title: string = "";
+  title: string = '';
   saveTitle() {
     this.title = this.title;
     console.log(this.title);
@@ -45,31 +46,24 @@ export class FamilyMemberClassComponent {
 
   newFamilyMember() {
     this.add();
-    this.model = new FamilyMember(42, '');
+    this.index=this.index+1;
+    this.model = new FamilyMember(this.index, '', '');
+    
     console.log(this.FamilyList);
   }
 
-  sourceMembers: Array<FamilyMember> = [];
-  targetMembers: Array<FamilyMember> = [];
 
-  sourceModel = new SourceMember(0,"ex");
-  targetModel = new TargetMember(0,"ex2")
+  relation = new Relation(0, 1, 'father');
 
-  newSourceMember() {
-    this.sourceMembers.push(this.sourceModel);
-    console.log(this.sourceModel);
+  relations: Array<Relation> = [];
+
+
+  newRelation() {
+    this.relations.push(this.relation);
+    console.log(this.relations);
+
+
   }
-  
-  newTargetMember() {
-    this.targetMembers.push(this.targetModel);
-    console.log(this.targetModel);
-  }
-  // relations: Array<FamilyMember | string | number> = [];
-
-
-  // makeRelations() {
-  //   this.relations.push(this.model.id, this.model);
-  // }
   // TODO: Remove this when we're done
   get diagnostic() { return JSON.stringify(this.model); }
 }

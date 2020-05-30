@@ -49,28 +49,28 @@
 
         <div class="form-group">
           <label for="member">Source Member</label>
-          <select class="form-control" id="member" required [(ngModel)]="model.name" name="name">
-            <option *ngFor="let mem of FamilyList" [value]="mem">{{mem.name}}</option>
+          <select class="form-control" id="member" required [(ngModel)]="relation.sourceMemberId" name="name">
+            <option *ngFor="let mem of FamilyList" [value]="mem.id">{{mem.name}}</option>
           </select>
 
           <label for="member">Target Member</label>
-          <select class="form-control" id="member" required [(ngModel)]="model.name" name="name">
-            <option *ngFor="let mem of FamilyList" [value]="mem">{{mem.name}}</option>
+          <select class="form-control" id="member" required [(ngModel)]="relation.targetMemberId" name="name">
+            <option *ngFor="let mem of FamilyList" [value]="mem.id">{{mem.name}}</option>
           </select>
 
           <label for="relation">Relation</label>
-          <select class="form-control" id="relation" required [(ngModel)]="relationType" name="relationType">
-            <option *ngFor="let rel of relationType" [value]="rel">{{rel}}</option>
+          <select class="form-control" id="relation" required [(ngModel)]="relation.relation" name="relationType">
+            <option *ngFor="let rel of relationType" [value]="relationType.indexOf(rel)">{{rel}}</option>
           </select>
-
-          <button class="btn btn-primary" (click)="newSourceMember(); newTargetMember(); form.reset()">Add New Relation</button>
+          
+          <button class="btn btn-primary" (click)="newRelation(); form.reset()">Add New Relation</button>
         </div>
 
         <div *ngFor="let i of FamilyList">
           <div class="row">
             <div class="col-xs-3">Name</div>
             <div class="col-xs-9">{{ i.name }}</div>
-          </div>
+          </div>  
           <div class="row">
             <div class="col-xs-3">Relation</div>
             <div class="col-xs-9">{{ i.relation }}</div>
