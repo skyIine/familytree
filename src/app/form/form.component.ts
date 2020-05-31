@@ -16,7 +16,7 @@ import { TargetMember } from '../target-member';
 export class FamilyMemberClassComponent {
 
   index:number =0;
-
+  regTitle:string="[A-Za-z]{2,20}";
   FamilyList: Array<FamilyMember> = [];
   familyNumber: number;
   familynumberList: Array<number> = [];
@@ -48,7 +48,6 @@ export class FamilyMemberClassComponent {
     this.add();
     this.index=this.index+1;
     this.model = new FamilyMember(this.index, '', '');
-    
     console.log(this.FamilyList);
   }
 
@@ -60,10 +59,13 @@ export class FamilyMemberClassComponent {
 
   newRelation() {
     this.relations.push(this.relation);
+    this.relation = new Relation(0,1,'father');
     console.log(this.relations);
-
-
   }
+
+  // titleValidate(){
+    
+  // }
   // TODO: Remove this when we're done
   get diagnostic() { return JSON.stringify(this.model); }
 }
