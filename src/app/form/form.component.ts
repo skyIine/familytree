@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { FamilyMember } from '../family-member';
 import { OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Relation } from '../relation';
 import { TargetMember } from '../target-member';
 
@@ -13,10 +13,17 @@ import { TargetMember } from '../target-member';
 })
 
 
-export class FamilyMemberClassComponent {
+export class FamilyMemberClassComponent implements OnInit {
 
-  index:number =0;
-  regTitle:string="[A-Za-z]{2,20}";
+  index: number = 0;
+  regTitle: string = "[A-Za-z]{2,20}";
+
+  firstFormGroup : FormGroup;
+  secondFormGroup: FormGroup;
+  isOptional = false;
+
+  constructor(private _formBuilder: FormBuilder) {}
+
   FamilyList: Array<FamilyMember> = [];
   familyNumber: number;
   familynumberList: Array<number> = [];
@@ -26,9 +33,10 @@ export class FamilyMemberClassComponent {
   relationType = ['mother', 'father', 'brother', 'sister'];
 
 
-  model = new FamilyMember(this.index, 'Name', '');
+  model = new FamilyMember(this.index, '', '');
 
   title: string = '';
+
   saveTitle() {
     this.title = this.title;
     console.log(this.title);
@@ -46,7 +54,7 @@ export class FamilyMemberClassComponent {
 
   newFamilyMember() {
     this.add();
-    this.index=this.index+1;
+    this.index = this.index + 1;
     this.model = new FamilyMember(this.index, '', '');
     console.log(this.FamilyList);
   }
@@ -59,13 +67,20 @@ export class FamilyMemberClassComponent {
 
   newRelation() {
     this.relations.push(this.relation);
-    this.relation = new Relation(0,1,'father');
+    this.relation = new Relation(0, 1, 'father');
     console.log(this.relations);
   }
 
-  // titleValidate(){
-    
-  // }
+  
+  ngOnInit() {
+    this.firstFormGroup = this._formBuilder.group({
+      firstCtrl: ['', Validators.required]
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      secondCtrl: ''
+    });
+  }
+
   // TODO: Remove this when we're done
   get diagnostic() { return JSON.stringify(this.model); }
 }

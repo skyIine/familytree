@@ -1,84 +1,72 @@
 <body>
   <div class="container">
- 
-    <mat-horizontal-stepper>
-      <mat-step label="Step 1" state="phone">
-        <!-- STEP 1 -->
-        <h1>Welcome to Family Tree Creator!</h1>
-        <img [src]=myimage>
-        <h2>Name your tree and press next to start.</h2>
-        <input type="text" class="form-control" required [(ngModel)]="title" placeholder="Tree Name">
-        <!-- <form class="example-form">
-          <mat-form-field class="example-full-width">
-            <mat-label>Name your tree.</mat-label>
-            <textarea [(ngModel)]="title" matInput placeholder="Title" required ></textarea>
-          </mat-form-field>
-        </form> -->
-        <div>
-          <button mat-button matStepperNext (click)="saveTitle(); form.reset()">Next</button>
-        </div>
-      </mat-step>
- 
-      <mat-step label="Step 2" state="chat">
-        <!-- STEP 2 -->
-        <div>
- 
-          <div [hidden]="submitted">
-            <br>
-            <h1>Add New Family Member</h1>
-            <form #form="ngForm" (ngSubmit)="onSubmit()">
-              <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" [(ngModel)]="model.name" name="name" placeholder="Name">
-              </div>
- 
- 
-              <button type="button" class="btn btn-default" (click)="newFamilyMember(); form.reset()">+Add New</button>
-              <button mat-button matStepperNext type="submit" class="btn btn-success toright70" [disabled]="!form.form.valid"
-                (click)="newFamilyMember();">Done!</button>
- 
-            </form>
-          </div>
-        </div>
-        <button mat-button matStepperPrevious>Back</button>
- 
- 
-      </mat-step>
-      <mat-step label="Step 3">
-        <!-- STEP 3 -->
-        <br>
-        <h1>Add a new relation:</h1>
- 
-        <div class="form-group">
-          <label for="member">Source Member</label>
-          <select class="form-control" id="member" required [(ngModel)]="relation.sourceMemberId" name="name">
-            <option *ngFor="let mem of FamilyList" [value]="mem.id">{{mem.name}}</option>
-          </select>
- 
-          <label for="member">Target Member</label>
-          <select class="form-control" id="member" required [(ngModel)]="relation.targetMemberId" name="name">
-            <option *ngFor="let mem of FamilyList" [value]="mem.id">{{mem.name}}</option>
-          </select>
- 
-          <label for="relation">Relation</label>
-          <select class="form-control" id="relation" required [(ngModel)]="relation.relation" name="relationType">
-            <option *ngFor="let rel of relationType" [value]="relationType.indexOf(rel)">{{rel}}</option>
-          </select>
- 
-          <br>
-          <button class="btn btn-default" (click)="newRelation(); form.reset()">Add New Relation</button>
- 
- 
-        <button class="btn btn-success toright60" (click)="newRelation()">Create Family Tree!</button>
+
+<mat-horizontal-stepper linear #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <ng-template matStepLabel>Step 1</ng-template>
+    <form [formGroup]="firstFormGroup">
+      <h1>Welcome to Family Tree Creator!</h1>
+      <img [src]=myimage>
+      <h2>Name your tree and press next to start.</h2>
+        <mat-label>  Name</mat-label>
+        <input class="form-control" matInput placeholder="Tree Name"
+        formControlName="firstCtrl" required [(ngModel)]="title" pattern="^[A-Za-z]{2,15}$|^[A-Za-z]{2,15} [A-Za-z]{2,15}$">
+        <p class="form__field__error">The title is invalid. Please enter it again. You can use 1-3 words (2-15 characters each, only letters).</p>
+            
+      <div>
+        <button mat-button matStepperNext (click)="saveTitle(); form.reset()">Next</button>
       </div>
-        <button mat-button matStepperPrevious (click)="submitted=false">Back</button>
-      </mat-step>
- 
-      <!-- Icon overrides. -->
-      <ng-template matStepperIcon="phone">
- 
-      </ng-template>
-    </mat-horizontal-stepper>
- 
-  </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" [optional]="isOptional">
+    <ng-template matStepLabel>Step 2</ng-template>
+    <form [formGroup]="secondFormGroup" #form="ngForm" (ngSubmit)="onSubmit()">
+      <h1>Add New Family Member</h1>
+        <mat-label>Name</mat-label>
+        <input class="form-control" matInput formControlName="secondCtrl"
+               required [(ngModel)]="model.name" placeholder="Name" 
+               pattern="^[A-Za-z]{2,15} [A-Za-z]{2,15}$|^[A-Za-z]{2,15} [A-Za-z]{2,15} [A-Za-z]{2,15}$|^[A-Za-z]{2,15} [A-Za-z]{2,15}-[A-Za-z]{2,15}$|^[A-Za-z]{2,15} [A-Za-z]{2,15} [A-Za-z]{2,15}( |-)[A-Za-z]{2,15}$|^[A-Za-z]{2,15} [A-Za-z]{2,15} [A-Za-z]{2,15}$ ">
+               <p class="form__field__error">The name is invalid. Please enter it again.</p>
+               <p class="form__field__error">You can use 1-4 words (2-15 characters each, only letters and "-" if you want to use double-barrelled surname).</p>
+        <br>
+        <button type="button" class="btn btn-default" [disabled]="!form.form.valid" (click)="newFamilyMember(); form.reset()">+Add new</button>
+        <button mat-button matStepperNext type="submit" class="btn btn-success toright70" [disabled]="!form.form.valid" (click)="newFamilyMember();">Done!</button>
+        <br>
+        <button mat-button matStepperPrevious>Back</button>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Step 3</ng-template>
+    <h1>Add a new relation:</h1>
+    <div>
+      <br>
+      <div class="form-group">
+        <label for="member">Source Member</label>
+        <select class="form-control" id="member" required [(ngModel)]="relation.sourceMemberId" name="name">
+          <option *ngFor="let mem of FamilyList" [value]="mem.id">{{mem.name}}</option>
+        </select>
+
+        <label for="member">Target Member</label>
+        <select class="form-control" id="member" required [(ngModel)]="relation.targetMemberId" name="name">
+          <option *ngFor="let mem of FamilyList" [value]="mem.id">{{mem.name}}</option>
+        </select>
+
+        <label for="relation">Relation</label>
+        <select class="form-control" id="relation" required [(ngModel)]="relation.relation" name="relationType">
+          <option *ngFor="let rel of relationType" [value]="relationType.indexOf(rel)">{{rel}}</option>
+        </select>
+
+    </div>
+    
+      <button class="btn btn-default" (click)="newRelation(); form.reset()">Add New Relation</button>
+      <button class="btn btn-success toright60" (click)="newRelation()">Create Family Tree!</button>
+      <br>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
+</div>
 </body>
