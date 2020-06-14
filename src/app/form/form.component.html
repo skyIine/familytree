@@ -79,6 +79,19 @@
             </div>
 
           </div>
+          <br>
+        <br>
+        <div class="family_list">
+        <h2>Added relations:</h2>
+          <ul>
+            <li *ngFor="let model of relations">
+             Source Member: {{FamilyList[model.sourceMemberId].name}}<br>
+             Target Member: {{FamilyList[model.targetMemberId].name}}<br>
+             Relation: {{relationType[model.relation]}} <br>
+             <br>
+            </li>
+          </ul>
+        </div>
 
           <button class="btn btn-success toright60" (click)="submitFamily()">Create Family Tree!</button>
 
