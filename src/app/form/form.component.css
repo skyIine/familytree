@@ -21,7 +21,7 @@ img{
 .form__field__error {
   color: #ff4d4d;
   margin: .25rem 0;
-  font-size: 14px;
+  font-size: 12px;
   transition: all .5s cubic-bezier(0.075, 0.82, 0.165, 1);
   max-height: 30%;
   opacity: 0;

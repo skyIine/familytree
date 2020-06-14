@@ -18,11 +18,13 @@ export class FamilyMemberClassComponent implements OnInit {
   index: number = 0;
   regTitle: string = "[A-Za-z]{2,20}";
 
-  firstFormGroup : FormGroup;
+  firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   isOptional = false;
 
-  constructor(private _formBuilder: FormBuilder) {}
+  jsonString: string;
+
+  constructor(private _formBuilder: FormBuilder) { }
 
   FamilyList: Array<FamilyMember> = [];
   familyNumber: number;
@@ -71,7 +73,7 @@ export class FamilyMemberClassComponent implements OnInit {
     console.log(this.relations);
   }
 
-  
+
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
@@ -81,6 +83,13 @@ export class FamilyMemberClassComponent implements OnInit {
     });
   }
 
+  submitFamily(){
+    this.jsonString = JSON.stringify(this.title);
+    this.jsonString += JSON.stringify(this.FamilyList);
+    this.jsonString += JSON.stringify(this.relations);
+    console.log(this.jsonString);
+  }
+
   // TODO: Remove this when we're done
-  get diagnostic() { return JSON.stringify(this.model); }
+  //  get diagnostic() { return JSON.stringify(this.model); }
 }
