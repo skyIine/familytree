@@ -55,9 +55,11 @@ export class FamilyMemberClassComponent implements OnInit {
   }
 
   newFamilyMember() {
-    this.add();
-    this.index = this.index + 1;
-    this.model = new FamilyMember(this.index, '', '');
+    if (this.model.name !== null && this.model.name !== '') {
+      this.add();
+      this.index = this.index + 1;
+      this.model = new FamilyMember(this.index, '', '');
+    }
     console.log(this.FamilyList);
   }
 
@@ -83,7 +85,7 @@ export class FamilyMemberClassComponent implements OnInit {
     });
   }
 
-  submitFamily(){
+  submitFamily() {
     this.jsonString = JSON.stringify(this.title);
     this.jsonString += JSON.stringify(this.FamilyList);
     this.jsonString += JSON.stringify(this.relations);
