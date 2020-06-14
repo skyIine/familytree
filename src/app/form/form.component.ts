@@ -5,6 +5,7 @@ import { OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Relation } from '../relation';
 import { TargetMember } from '../target-member';
+import { variable } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-form',
@@ -23,8 +24,10 @@ export class FamilyMemberClassComponent implements OnInit {
   isOptional = false;
 
   jsonString: string;
+  onlyNames = new Array();
 
   constructor(private _formBuilder: FormBuilder) { }
+
 
   FamilyList: Array<FamilyMember> = [];
   familyNumber: number;
@@ -48,6 +51,8 @@ export class FamilyMemberClassComponent implements OnInit {
   add() {
     this.FamilyList.push(this.model);
     console.log(this.model);
+    this.onlyNames.push(this.model.name);
+    console.log(this.onlyNames);
   }
 
   onSubmit() {
@@ -59,19 +64,26 @@ export class FamilyMemberClassComponent implements OnInit {
       this.add();
       this.index = this.index + 1;
       this.model = new FamilyMember(this.index, '', '');
+      // this.onlyNames.push(this.model.name);
+
     }
     console.log(this.FamilyList);
+    // console.log('names:' + this.onlyNames);
   }
 
 
-  relation = new Relation(0, 1, 'father');
+
+  relation = new Relation(0, 1, '');
 
   relations: Array<Relation> = [];
 
 
   newRelation() {
-    this.relations.push(this.relation);
-    this.relation = new Relation(0, 1, 'father');
+    if (this.relation.relation !== null && this.relation.relation !== '') {
+      this.relations.push(this.relation);
+      this.relation = new Relation(0, 1, '');
+    }
+
     console.log(this.relations);
   }
 
@@ -86,8 +98,9 @@ export class FamilyMemberClassComponent implements OnInit {
   }
 
   submitFamily() {
+
     this.jsonString = JSON.stringify(this.title);
-    this.jsonString += JSON.stringify(this.FamilyList);
+    this.jsonString += JSON.stringify(this.onlyNames);
     this.jsonString += JSON.stringify(this.relations);
     console.log(this.jsonString);
   }
